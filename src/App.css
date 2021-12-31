@@ -113,3 +113,8 @@ margin-left: 40%;
  .logout:hover{
     background-color: rgb(18, 18, 145);
 }
+
+.submit-btn{
+    margin-top: 20px;
+    margin-left: 40%;
+}

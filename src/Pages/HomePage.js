@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Chart from '../Component/Chart';
 import { connect } from 'react-redux';
-import { getCovidData } from '../Redux/Action/Action';
+import { getCovidData, formSubmitData } from '../Redux/Action/Action';
 
 
 class HomePage extends Component {
@@ -11,7 +11,13 @@ class HomePage extends Component {
         super();
         this.state = {
             countries: [],
-            selectedCountry: ''
+            selectedCountry: '',
+            name: '',
+            email: '',
+            mobile: '',
+            address: '',
+            collegeName: ''
+
         };
     }
 
@@ -25,7 +31,6 @@ class HomePage extends Component {
             method: 'GET'
         }).then(resp => resp.json()).then(result => {
             this.props.getCovidData(result);
-           
         });
     };
 
@@ -45,8 +50,34 @@ class HomePage extends Component {
         });
     };
 
+    handleInputData = (event) => {
+        event.preventDefault();
+        const name = event.target.name;
+        const value = event.target.value;
+
+        this.setState({
+            [name]: value
+        });
+    };
+
+    handleSubmitForm = (event) => {
+        event.preventDefault();
+        const submitedData = {
+            name: this.state.name,
+            email: this.state.email,
+            mobile: this.state.mobile,
+            address: this.state.address,
+            collegeName: this.state.collegeName
+        };
+        this.props.formSubmitData(submitedData);
+
+    };
+
 
     render() {
+
+        const covidData = this.props.getAllCovidData && this.props.getAllCovidData;
+
         return (
             <div>
                 <div className="container cardsStyle">
@@ -55,7 +86,7 @@ class HomePage extends Component {
                             <div className="card ">
                                 <div className="card-body confirmCase ">
                                     <h5 className="card-title">Confirmed cases</h5>
-                                    <h6 className="value">{this.props.getAllCovidData.confirmed?.value}</h6>
+                                    <h6 className="value">{covidData && covidData.confirmed?.value}</h6>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +94,7 @@ class HomePage extends Component {
                             <div className="card">
                                 <div className="card-body deathcase">
                                     <h5 className="card-title">Confirmed deaths</h5>
-                                    <h6 className="value">{this.props.getAllCovidData.deaths?.value}</h6>
+                                    <h6 className="value">{covidData && covidData.deaths?.value}</h6>
                                 </div>
                             </div>
                         </div>
@@ -71,26 +102,41 @@ class HomePage extends Component {
                             <div className="card">
                                 <div className="card-body recoverdCase">
                                     <h5 className="card-title">Total recovered</h5>
-                                    <h6 className="value">{this.props.getAllCovidData.recovered?.value}</h6>
+                                    <h6 className="value">{covidData && covidData.recovered?.value}</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <select onChange={this.handleSelectCountry}>
+                {/* <select onChange={this.handleSelectCountry}>
                     <option value="">Select Country</option>
                     {
                         this.state.countries.map((country, index) => {
                             return <option value={country.name} key={index}>{country.name}</option>;
                         })
                     }
-                </select>
+                </select> */}
 
                 <div>
                     <Chart totalData={this.props.getAllCovidData}
                         country={this.state.countries}
                         selectedCountry={this.state.selectedCountry} />
+                </div>
+                <div className='container'>
+                    <form>
+                        <lable>Name</lable>
+                        <input type="text" name='name' value={this.state.name} className="form-control" onChange={this.handleInputData} />
+                        <lable>Email</lable>
+                        <input type="email" name='email' value={this.state.email} className="form-control" onChange={this.handleInputData} />
+                        <lable>Mobile</lable>
+                        <input type="number" name='mobile' value={this.state.mobile} className="form-control" onChange={this.handleInputData} />
+                        <lable>Address</lable>
+                        <input type="text" name='address' value={this.state.address} className="form-control" onChange={this.handleInputData} />
+                        <lable>College Name</lable>
+                        <input type="text" name='collegeName' value={this.state.collegeName} className="form-control" onChange={this.handleInputData} />
+                        <button className='btn-primary submit-btn' onClick={this.handleSubmitForm}>Submit</button>
+                    </form>
                 </div>
             </div>
         );
@@ -99,13 +145,14 @@ class HomePage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        getAllCovidData: state.Reducers && state.Reducers.data
+        getAllCovidData: state.Reducers && state.Reducers.data,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getCovidData: (data) => dispatch(getCovidData(data))
+        getCovidData: (data) => dispatch(getCovidData(data)),
+        formSubmitData: (submitedData) => dispatch(formSubmitData(submitedData))
     };
 };
 
