@@ -118,3 +118,15 @@ margin-left: 40%;
     margin-top: 20px;
     margin-left: 40%;
 }
+.product{
+    margin-top: 30px;
+}
+.no-item{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+.image-style{
+    width: 20%;
+    height: auto;
+}

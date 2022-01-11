@@ -1,2 +1,3 @@
 export const GET_COVID_DATA = 'GET_COVID_DATA';
 export const FORM_SUBMIT_DATA = 'FORM_SUBMIT_DATA';
+export const PRODUCT_CART = 'PRODUCT_CART';

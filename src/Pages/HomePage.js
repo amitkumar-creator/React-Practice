@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 import Chart from '../Component/Chart';
 import { connect } from 'react-redux';
-import { getCovidData, formSubmitData } from '../Redux/Action/Action';
+import { getCovidData, formSubmitData, productCart } from '../Redux/Action/Action';
+import ProductData from '../Data/productData.json';
 
 
 class HomePage extends Component {
@@ -72,11 +73,16 @@ class HomePage extends Component {
         this.props.formSubmitData(submitedData);
 
     };
+    handleAddToCart =(data)=>{
+        this.props.productCart(data)
+        alert("Added to cart")
+    }
 
 
     render() {
 
         const covidData = this.props.getAllCovidData && this.props.getAllCovidData;
+       
 
         return (
             <div>
@@ -138,6 +144,27 @@ class HomePage extends Component {
                         <button className='btn-primary submit-btn' onClick={this.handleSubmitForm}>Submit</button>
                     </form>
                 </div>
+                <div className=' container product'>
+                    <div className="row">
+                        {
+                            ProductData && ProductData.product?.map((data, index) => {
+                                return (
+                                    <div className="col-sm-4 col-md-4" key={index}>
+                                        <div className="card">
+                                            <div className="card-body">
+                                                <img class="card-img-top" src={data.image} />
+                                                <h5 className="card-title">{data.name}</h5>
+                                                <h6 className="value">{data.price}</h6>
+                                                <button onClick={()=>this.handleAddToCart(data)}>Add to card</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                );
+                            })
+                        }
+                    </div>
+                </div>
             </div>
         );
     }
@@ -152,7 +179,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getCovidData: (data) => dispatch(getCovidData(data)),
-        formSubmitData: (submitedData) => dispatch(formSubmitData(submitedData))
+        formSubmitData: (submitedData) => dispatch(formSubmitData(submitedData)),
+        productCart:(data)=>dispatch(productCart(data))
     };
 };
 

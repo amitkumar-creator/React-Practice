@@ -6,11 +6,6 @@ import LoginPage from './Pages/LoginPage';
 import RegistrationForm from './Pages/RegistrationForm';
 import Dashboard from './Pages/DashBoard';
 
-import HomePage from './Pages/HomePage';
-import AboutPage from './Pages/AboutPage';
-import ContactPage from './Pages/ContactPage';
-import HelpPage from './Pages/HelpPage';
-
 
 
 function App() {

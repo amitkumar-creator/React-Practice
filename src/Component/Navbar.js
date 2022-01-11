@@ -20,6 +20,9 @@ function Navbar() {
                         <li className="nav-item active">
                             <Link className="nav-link" to={`/dashboard`}>Home </Link>
                         </li>
+                        <li className="nav-item active">
+                            <Link className="nav-link" to={`${matchPath.path}/cart`}>cart </Link>
+                        </li>
                         <li className="nav-item">
                             <Link className="nav-link" to={`${matchPath.path}/about`}>About</Link>
                         </li>
